@@ -1,54 +1,160 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>dinstone的程序人生</title>
+---
+layout: default
+---
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>dinstone</h1>
-        <p>JavaEE SOA OSGI Hadoop HBase Redis Kafka Vert.x</p>
-        <p class="view"><a href="https://github.com/dinstone">View On <strong>GitHub</strong></a></p>
+<div class="page clearfix" index>
+    <div class="left">
+        <h1>dinstone's blog</h1>
+        <small>一些学习和思考, 希望可以做好一些事</small>
+        <hr>
         <ul>
-          <li class="single"><a href="https://github.com/dinstone">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3><a id="关于我" class="anchor" href="#%E5%85%B3%E4%BA%8E%E6%88%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>关于我</h3>
-		<p>一个热爱编程的架构师，长期从事Java平台的软件开发和架构设计工作。多年企业应用系统开发经验，多年互联网应用架构经验，熟悉J2EE平台、SOA架构、微服务架构及OSGi编程模型，擅长复杂系统业务建模和架构设计，同时在构建大规模分布式系统方面有丰富实践经验。</p>
-		<p>对开源项目Tomcat，Spring，Mina，Netty，Vert.x，Hadoop，HBase，Zookeeper等有深入研究，掌握基于Hadoop的海量数据处理技术。对分布式存储、大数据实时计算、云计算有浓厚兴趣，欢迎一起聊架构设计、架构落地等技术问题。</p>
+            {% for post in paginator.posts %}
+              <li>
+                <h2>
+                  <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                </h2>
+                <div class="label">
+                    <div class="label-card">
+                        <i class="fa fa-calendar"></i>{{ post.date | date: "%F" }}
+                    </div>
+                    <div class="label-card">
+                        {% if post.author %}<i class="fa fa-user"></i>{{ post.author }}
+                        {% endif %}
+                    </div>
+                    <div class="label-card">
+                        {% if page.meta %}<i class="fa fa-key"></i>{{ page.meta }}  {% endif %}
+                    </div>
 
-		<h3><a id="联系我" class="anchor" href="#%E8%81%94%E7%B3%BB%E6%88%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>联系我</h3>
-		<p><strong>Email：</strong><a href="mailto:haizai219@163.com">haizai219@163.com</a></p>
-		<p><strong>Blog&nbsp&nbsp：</strong><a href="http://blog.163.com/haizai219@126">http://blog.163.com/haizai219@126</a></p>
+                    <div class="label-card">
+                    {% include category.html %}
+                    </div>
 
-		<h3><a id="我的项目" class="anchor" href="#%E8%81%94%E7%B3%BB%E6%88%91" aria-hidden="true"><span class="octicon octicon-link"></span></a>我的项目</h3>
-		<ul>
-		  <li><a href="https://github.com/dinstone/jrpc"><strong>JRPC</strong></a></li>
-		  <li><a href="https://github.com/dinstone/clutch"><strong>Clutch</strong></a></li>
-          <li><a href="https://github.com/dinstone/com.dinstone.beanstalkc"><strong>Beanstalkc</strong></a></li>
-		  <li><a href="https://github.com/dinstone/motor"><strong>Motor</strong></a></li>
-		  <li><a href="https://github.com/dinstone/grape"><strong>Grape</strong></a></li>
-		  <li><a href="https://github.com/dinstone/jbp-launcher"><strong>JavaLauncher</strong></a></li>
-		  <li><a href="https://github.com/dinstone/uams"><strong>UAMS</strong></a></li>
+                    <div class="label-card">
+                    {% include tag.html %}
+                    </div>
+                </div>
+                <div class="excerpt">
+                    {{post.excerpt}}
+                </div>
+                <div class="read-all">
+                    <a  href="{{ post.url | prepend: site.baseurl }}"><i class="fa fa-newspaper-o"></i>Read All</a>
+                </div>
+                <hr>
+              </li>
+            {% endfor %}
         </ul>
-      </section>
+
+
+
+        <!-- Pagination links -->
+        <div class="pagination">
+          {% if paginator.previous_page %}
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="previous"><i class="fa fa-angle-left"></i></a>
+          {% else %}
+            <span class="previous disable"><i class="fa fa-angle-double-left"></i></span>
+            <span class="previous disable"><i class="fa fa-angle-left"></i></span>
+          {% endif %}
+          <span class="page_number ">{{ paginator.page }}/{{ paginator.total_pages }}</span>
+          {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path }}" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="{{ site.baseurl }}/page{{ paginator.total_pages }}" class="next"><i class="fa fa-angle-double-right"></i></a>
+          {% else %}
+            <span class="next disable"><i class="fa fa-angle-right"></i></span>
+            <span class="next disable"><i class="fa fa-angle-double-right"></i></span>
+          {% endif %}
+        </div>
     </div>
-    <footer>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
-</html>
+    <!-- <button class="anchor"><i class="fa fa-anchor"></i></button> -->
+    <div class="right">
+        <div class="wrap">
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    {% for post in site.posts offset: 0 limit: 10  %}
+                        <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    {% for category in site.categories %}
+                    <li>
+                        <a href="{{ root_url }}/{{ site.category_dir }}#{{ category | first }}" class="categories-list-item" cate="{{ category | first }}">
+                            <span class="name">
+                                {{ category | first }}
+                            </span>
+                            <span class="badge">{{ category | last | size }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- 其他div框放到这里 -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    {% assign first = site.tags.first %}
+                    {% assign max = first[1].size %}
+                    {% assign min = max %}
+                    {% for tag in site.tags offset:1 %}
+                      {% if tag[1].size > max %}
+                        {% assign max = tag[1].size %}
+                      {% elsif tag[1].size < min %}
+                        {% assign min = tag[1].size %}
+                      {% endif %}
+                    {% endfor %}
+
+                    {% if max == min %}
+                        {% assign diff = 1 %}
+                    {% else %}
+                        {% assign diff = max | minus: min %}
+                    {% endif %}
+
+                    {% for tag in site.tags %}
+                      {% assign temp = tag[1].size | minus: min | times: 36 | divided_by: diff %}
+                      {% assign base = temp | divided_by: 4 %}
+                      {% assign remain = temp | modulo: 4 %}
+                      {% if remain == 0 %}
+                        {% assign size = base | plus: 9 %}
+                      {% elsif remain == 1 or remain == 2 %}
+                        {% assign size = base | plus: 9 | append: '.5' %}
+                      {% else %}
+                        {% assign size = base | plus: 10 %}
+                      {% endif %}
+                      {% if remain == 0 or remain == 1 %}
+                        {% assign color = 9 | minus: base %}
+                      {% else %}
+                        {% assign color = 8 | minus: base %}
+                      {% endif %}
+                      <a href="{{ root_url }}/{{ site.tag_dir }}#{{ tag[0] }}" style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};">{{ tag[0] }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- <div class="side">
+                <div>
+                    <i class="fa fa-external-link"></i>
+                    Links
+                </div>
+                <ul  class="content-ul">
+
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- <script src="{{ "/js/scroll.min.js " | prepend: site.baseurl }}" charset="utf-8"></script> -->
+<!-- <script src="{{ "/js/pageContent.js " | prepend: site.baseurl }}" charset="utf-8"></script> -->
