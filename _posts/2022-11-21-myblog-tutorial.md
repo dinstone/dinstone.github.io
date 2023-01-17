@@ -80,7 +80,7 @@ author: dinstone
 
 直接在中间内容部分按照markdown形式更改即可。一般使用简介+链接的形式记录。
 
-## 6 Demo
+## 6 Projects
 
 ![demo](https://s3.uuu.ovh/imgs/2022/11/24/b75a0c5c84040aff.png)
 
