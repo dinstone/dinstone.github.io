@@ -1,20 +1,20 @@
 ---
 layout: post
-title:  "github博客搭建"
+title:  "Github博客搭建"
 categories: 前端
 tags:  前端
-author: dinstone
+author: shen-xmas
 ---
 
 * content
 {:toc}
 
 
-> 样板博客网址为 [dinstone's blog](https://dinstone.github.io/)
+> 样板博客网址为 [Shen-Xmas’s Blog](https://shen-xmas.github.io/)
 
 ## 首先搭建起一个github博客
 
-首先建立一个个人博客github仓库。其实只要把 [博客代码(点击跳转)](https://github.com/dinstone/dinstone.github.io/) fork下来, 仓库名改为自己的{{github.username}}.github.io就可以了。
+首先建立一个个人博客github仓库。其实只要把 [博客代码(点击跳转)](https://github.com/shen-xmas/shen-xmas.github.io/) fork下来, 仓库名改为自己的{{github.username}}.github.io就可以了。
 
 fork下来项目以后别忘了看看 代码仓库-Settings-Pages的Branch等设置好没有。
 
@@ -63,7 +63,7 @@ layout: post
 title:  "填写需要的标题"
 categories: Java Python Golang
 tags:  Java Python Golang
-author: dinstone
+author: shen-xmas
 ---
 
 * content
@@ -82,21 +82,21 @@ author: dinstone
 
 ## 6 Projects
 
-![demo](https://s3.uuu.ovh/imgs/2022/11/24/b75a0c5c84040aff.png)
+![Projects](https://s3.uuu.ovh/imgs/2022/11/24/b75a0c5c84040aff.png)
 
 主要用来介绍自己一些项目的地方。为了简单我的已经把图片展示去掉了。主要留文字简介和链接。
 
 更改位置是/js/waterfall.js。在demoContent变量中增减值即可。按照字段内容填写。
 ```
 {
-  demo_link: 'https://github.com/dinstone/spring-boot-demo',
-  code_link: 'https://github.com/dinstone/spring-boot-demo',
+  demo_link: 'https://github.com/shen-xmas/spring-boot-demo',
+  code_link: 'https://github.com/shen-xmas/spring-boot-demo',
   title: 'Java Spring-Boot demos',
   core_tech: 'Java, Spring Boot, 各种中间件 ..',
-  description: '适合初学者入门的一些demo, 个人的一些学习思考, 欢迎指正. 详情见 <a href ="https://github.com/dinstone/spring-boot-demo">这里</a>。'
+  description: '适合初学者入门的一些demo, 个人的一些学习思考, 欢迎指正. 详情见 <a href ="https://github.com/shen-xmas/spring-boot-demo">这里</a>。'
 }
 ```
 
 ## 7 About
 
-主要用来介绍自己以及留下联系方式。更改位置位于/page/4about.md。
+主要用来介绍自己以及留下联系方式。更改位置位于/page/5about.md。
