@@ -15,8 +15,3 @@ type: page
 
     比较全面的Java入门教程, 适合稍有编程基础阅读。
 
-
-
-## Comments
-
-{% include comments.html %}
