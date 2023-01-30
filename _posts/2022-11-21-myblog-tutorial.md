@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "Github博客搭建"
-categories: 前端
-tags:  前端
-author: shen-xmas
+categories: 建站
+tags:  blog docker jekyll github
+author: dinstone
 ---
 
 * content
@@ -12,91 +12,59 @@ author: shen-xmas
 
 > 样板博客网址为 [Shen-Xmas’s Blog](https://shen-xmas.github.io/)
 
-## 首先搭建起一个github博客
+## 搭建Github博客运行环境
 
-首先建立一个个人博客github仓库。其实只要把 [博客代码(点击跳转)](https://github.com/shen-xmas/shen-xmas.github.io/) fork下来, 仓库名改为自己的{{github.username}}.github.io就可以了。
+首先在Github上建立一个博客仓库。其实只要把 [博客代码(点击跳转)](https://github.com/shen-xmas/shen-xmas.github.io/) fork下来, 仓库名改为自己的 {{site.github_username}}.github.io 就可以了。
 
-fork下来项目以后别忘了看看 代码仓库-Settings-Pages的Branch等设置好没有。
-
-大概等待几分钟看到settings-pages出现如下图标则表示已搭建成功, 可以通过其中的url访问了。
-
-![搭建成功的page示例](https://s3.uuu.ovh/imgs/2022/11/24/861297a7040b780f.png)
-
-然后根据以下做需要的改造即可:
-
-(Ps: 原本fork自大佬HyG, 做了一些个人改动。这里记录下各个文件的用途, 也帮助像我一样很少接触前端的后端迅速上手。)
-
----
+接着按照Shen-Xmas的博客指南修改配置后，提交到Github就可以访问 {{site.github_username}}.github.io 预览了。
 
 
+## 搭建Github博客开发环境
 
-## 1 左上角标题及简介以及下方的介绍
+搭建好了博客，我们就可以开始写blog了，但每次写完后需要提交到Github上后，才能预览。如果能在本地搭建一个开发环境，可以很及时的预览，及早发现问题，那是多么的方便啊！
 
-变量都位于_config.yaml文件,直接修改即可。
-- title 左上角标题
-- brief-intro 左上角简介
-- description_footer 下方的小字
+上面创建的Github博客，其实是基于Github的pages功能实现的，而Github的pages功能又基于jekyll技术，所以很自然的在本地构建一个jekyll环境就能解决问题了。当然，在现在一切可docker的时代，最快的方法还就是使用docker镜像构建jekyll的开发环境了。
 
-## 2 评论和访客数
-
-评论使用的是Disqus插件。访问量使用的百度统计。不是放在逻辑里用代码写的。
-
-注册自己对应的账号ID等.. 直接在_config,yaml中修改对应变量即可。
-
-## 3 文章
-
-文章都放置在_posts中, 需要按特定格式书写, 是markdown格式。
-
-## 4 Home Archives Categories 和 Tags
-
-![tags等位置示例](https://s3.uuu.ovh/imgs/2022/11/24/139d0bfa6e825599.png)
-
-这些的展现逻辑都已经写好了, 不用动。
-- Archives是按照时间排序。
-- Categories是按类别排序。
-- Tags是按照tag过滤。
-文章开头都会填写这些字段的值, 多字段直接空格隔开即可, 如:
-
-```markdown
----
-layout: post
-title:  "填写需要的标题"
-categories: Java Python Golang
-tags:  Java Python Golang
-author: shen-xmas
----
-
-* content
-{:toc}
+- 下载仓库
 ```
-
-然后接下来就可以按照markdown的格式书写内容了。
-
-## 5 Collections
-
-![Collections](https://s3.uuu.ovh/imgs/2022/11/24/140a871affd7855b.png)
-
-算是收藏集合, 位于/page/3collections.md
-
-直接在中间内容部分按照markdown形式更改即可。一般使用简介+链接的形式记录。
-
-## 6 Projects
-
-![Projects](https://s3.uuu.ovh/imgs/2022/11/24/b75a0c5c84040aff.png)
-
-主要用来介绍自己一些项目的地方。为了简单我的已经把图片展示去掉了。主要留文字简介和链接。
-
-更改位置是/js/waterfall.js。在demoContent变量中增减值即可。按照字段内容填写。
+  cd /Users/dinstone/git
+  git clone https://github.com/dinstone/dinstone.github.io
 ```
-{
-  demo_link: 'https://github.com/shen-xmas/spring-boot-demo',
-  code_link: 'https://github.com/shen-xmas/spring-boot-demo',
-  title: 'Java Spring-Boot demos',
-  core_tech: 'Java, Spring Boot, 各种中间件 ..',
-  description: '适合初学者入门的一些demo, 个人的一些学习思考, 欢迎指正. 详情见 <a href ="https://github.com/shen-xmas/spring-boot-demo">这里</a>。'
-}
+- 下载镜像
 ```
+  docker pull jekyll/jekyll
+```
+- 构建环境
+```
+  docker run -it -p 4000:4000 -v /Users/dinstone/git/dinstone.github.io/:/srv/jekyll/ --name=jekyll_blog jekyll/jekyll  bash
+  在shell中执行启动命令：jekyll server -w
+  如果发现错误： `require': cannot load such file -- webrick (LoadError)，请执行如下命令：
+  gem install webrick
+```
+- 开发测试
 
-## 7 About
+  1.启动服务：jekyll server -w
+  ```
+  ruby 3.1.1p18 (2022-02-18 revision 53f5fc4236) [x86_64-linux-musl]
+  Configuration file: /srv/jekyll/_config.yml
+              Source: /srv/jekyll
+        Destination: /srv/jekyll/_site
+  Incremental build: disabled. Enable with --incremental
+        Generating... 
+                      done in 0.513 seconds.
+  Auto-regeneration: enabled for '/srv/jekyll'
+      Server address: http://0.0.0.0:4000/
+    Server running... press ctrl-c to stop.
+  ```
+  2.访问 http://0.0.0.0:4000/，就能看到blog了。
 
-主要用来介绍自己以及留下联系方式。更改位置位于/page/5about.md。
+  3.编辑blog，在_posts目录下编辑blog后，会自动更新到站点。
+  ```
+        Regenerating: 1 file(s) changed at 2023-01-29 05:37:50
+                      _posts/2022-11-21-myblog-tutorial.md
+                      ...done in 1.527379098 seconds.
+                      
+        Regenerating: 1 file(s) changed at 2023-01-29 06:11:56
+                      _posts/2022-11-21-myblog-tutorial.md
+                      ...done in 0.494004279 seconds.
+  ```
