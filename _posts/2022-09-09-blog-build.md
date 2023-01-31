@@ -68,3 +68,8 @@ author: dinstone
                       _posts/2022-11-21-myblog-tutorial.md
                       ...done in 0.494004279 seconds.
   ```
+
+## 感谢捐赠
+捐赠一杯咖啡，我会做得更好。谢谢！
+
+![wechat]({{site.url}}/img/donate/wechatzan.jpeg)
