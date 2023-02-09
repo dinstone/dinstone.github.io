@@ -1,17 +1,22 @@
-> 样板博客网址为 [Shen-Xmas’s Blog](https://shen-xmas.github.io/)
-
 ## 搭建Github博客运行环境
 
-首先在Github上建立一个博客仓库。其实只要把 [博客代码(点击跳转)](https://github.com/shen-xmas/shen-xmas.github.io/) fork下来, 仓库名改为自己的 {{site.github_username}}.github.io 就可以了。
+首先在Github上建立一个博客仓库{{site.github_username}}.github.io。
+> 注意：{{site.github_username}} 是变量，代表你的Github账号
 
-接着按照Shen-Xmas的博客指南修改配置后，提交到Github就可以访问 {{site.github_username}}.github.io 预览了。
+然后git clone 样板博客 [Shen-Xmas’s Blog](https://shen-xmas.github.io/) 就可以了。
+
+接着按照Shen-Xmas的博客指南修改配置，提交到Github后，就可以访问 https://{{site.github_username}}.github.io 预览了。
 
 
 ## 搭建Github博客开发环境
 
-搭建好了博客，我们就可以开始写blog了，但每次写完后需要提交到Github上后，才能预览。如果能在本地搭建一个开发环境，可以很及时的预览，及早发现问题，那是多么的方便啊！
+搭建好了博客站点，我们就可以开始写blog了，但每次写完后，需要提交到Github上才能预览。如果能在本地搭建一个开发环境，可以实时的预览，及早发现问题及早修复，那是多么的方便啊！
 
-上面创建的Github博客，其实是基于Github的pages功能实现的，而Github的pages功能又基于jekyll技术，所以很自然的在本地构建一个jekyll环境就能解决问题了。当然，在现在一切可docker的时代，最快的方法还就是使用docker镜像构建jekyll的开发环境了。
+说干就干！首先了解原理。上面创建的Github博客，其实是基于Github的pages功能实现的，而Github的pages功能又基于jekyll技术，所以很自然的在本地构建一个jekyll环境就能解决问题了。
+
+然后就是策略选择了。在一切皆可docker的时代，最快的方法当然就是使用docker镜像构建jekyll的开发环境了。
+
+最后就是执行了，下面是具体的执行过程，请参考:
 
 - 下载仓库
 ```
