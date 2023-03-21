@@ -7,7 +7,7 @@ author: dinstone
 ---
 
 # 背景
-只从上次把我的古董笔记本电脑X201i升级后，一直安装的是Ubuntu桌面系统。今天突发奇想装个Gitlab玩玩，在安装docker镜像时发现，系统待机状况下CPU资源负载就高达23%左右，4G的内存仅剩1.5G了，这怎么行呢。
+自从上次把我的古董笔记本电脑X201i升级后，一直安装的是Ubuntu桌面系统。今天突发奇想装个Gitlab玩玩，在安装docker镜像时发现，系统待机状况下CPU资源负载就高达23%左右，4G的内存仅剩1.5G了，这怎么行呢。
 
 后来想反正以后也是当服务器用了，不如装个Linux的服务器版，鉴于Ubuntu的成功安装经验，所以直接下载Ubuntu的server版得了，省的再倒腾其他OS了，可没想到，安装过程也是一波三折，费了不少时间，不过结果是喜人的，谨记如下，分享之。
 
@@ -44,9 +44,9 @@ author: dinstone
     sudo netplan apply
   
   > 也可参考： 
-  > https://blog.csdn.net/weixin_44244400/article/details/125116027
-  > https://www.dandelioncloud.cn/article/details/1595000146184294401
-  
+  >  https://blog.csdn.net/weixin_44244400/article/details/125116027
+  >  https://www.dandelioncloud.cn/article/details/1595000146184294401
+
 2. 解决systemd-logind占用cpu过高问题，直接停止该服务就行：https://www.landui.com/help/show-3135 
     systemctl stop 
 
@@ -55,6 +55,7 @@ author: dinstone
     data -R
   * 调整时区
     sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
+
   > 也可参考：
   > https://blog.csdn.net/endswell/article/details/126656840
   > https://www.shuzhiduo.com/A/Ae5R4gR7zQ/
