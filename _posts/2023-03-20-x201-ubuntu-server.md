@@ -6,6 +6,9 @@ tags:  ubuntu
 author: dinstone
 ---
 
+* content
+{:toc}
+
 # 背景
 自从上次把我的古董笔记本电脑X201i升级后，一直安装的是Ubuntu桌面系统。今天突发奇想装个Gitlab玩玩，在安装docker镜像时发现，系统待机状况下CPU资源负载就高达23%左右，4G的内存仅剩1.5G了，这怎么行呢。
 
@@ -48,7 +51,8 @@ author: dinstone
   >  https://www.dandelioncloud.cn/article/details/1595000146184294401
 
 2. 解决systemd-logind占用cpu过高问题，直接停止该服务就行：https://www.landui.com/help/show-3135 
-    systemctl stop 
+    sudo systemctl stop systemd-logind
+    sudo systemctl mask systemd-logind
 
 3. ubuntu server设置时区和更新时间：
   * 查看时区
