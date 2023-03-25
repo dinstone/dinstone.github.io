@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "云原生 docker 快速搭建日常开发环境"
+title:  "云原生 docker 搭建开发环境"
 categories: 云原生
 tags:  cloud-native kubernetes docker
 author: dinstone
@@ -27,6 +27,8 @@ author: dinstone
 [docker DNS实现](https://www.ucloud.cn/yun/129499.html)
 
 [docker容器的DNS ](https://www.cnblogs.com/wangguishe/p/15630748.html)
+
+[docker最佳实践](https://docker-practice.github.io/zh-cn/)
 
 # portainer安装
 [portainer 安装](https://www.portainer.io/)，portainer是一个非常好用的docker管理工具。
@@ -64,5 +66,16 @@ cat /etc/resolv.conf
 
 [Ubuntu 安装netstat网络工具](https://blog.csdn.net/benchi400/article/details/103656902)
 
+# Alpine安装
+Alpine 操作系统是一个面向安全的轻型 Linux 发行版。它不同于通常 Linux 发行版，Alpine 采用了 musl libc 和 busybox 以减小系统的体积和运行时资源消耗，但功能上比 busybox 又完善的多，因此得到开源社区越来越多的青睐。在保持瘦身的同时，Alpine 还提供了自己的包管理工具 apk，可以通过 https://pkgs.alpinelinux.org/packages 网站上查询包信息，也可以直接通过 apk 命令直接查询和安装各种软件。
 
+docker run -it --cap-add=NET_ADMIN alpine /bin/sh
+
+apk update
+
+apk add iptables
+
+iptables -L
+
+ cat /etc/resolv.conf
 
