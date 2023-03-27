@@ -24,42 +24,62 @@ author: dinstone
 # 系统设置
 1. 安装过程中，通常只有有线网卡可以设置，而对于无线网卡来说是没有管理器的，所以需要我们在插上网线的情况下，更新了加密套件和网络管理器才能正确设置wifi网络。
   * 查看无线网卡名字
+    
     ifconfig -a 或 ip a
+
   * 安装WPA2加密工具
+    
     sudo apt-get install wpasupplicant
+
     sudo apt-get install network-manager
+
   * 修改wifi配置文件
+
     cd /etc/netplan/
+    
     sudo vim /etc/netplan/00-intaller-config-wifi.yaml
+
   * wifi配置文件是yaml格式的，注意格式，给你的无线网卡“wlp2s0”添加如下内容SSID信息：
-  ```yaml
-    network:
-	    version: 2
-    wifis:
-        wlp2s0:
-            dhcp4: true
-            access-points:
-                "wifi ssid":
-                    password: "wifi 密码"
-  ```
+```yaml
+network:
+  version: 2
+wifis:
+    wlp2s0:
+        dhcp4: true
+        access-points:
+            "wifi ssid":
+                password: "wifi 密码"
+```
   * 验证和应用设置
+
     sudo netplan try
+  
     sudo netplan apply
   
-  > 也可参考： 
-  >  https://blog.csdn.net/weixin_44244400/article/details/125116027
-  >  https://www.dandelioncloud.cn/article/details/1595000146184294401
-
+  也可参考： 
+  * https://blog.csdn.net/weixin_44244400/article/details/125116027
+  * https://www.dandelioncloud.cn/article/details/1595000146184294401
+  
 2. 解决systemd-logind占用cpu过高问题，直接停止该服务就行：https://www.landui.com/help/show-3135 
-    sudo systemctl stop systemd-logind
-    sudo systemctl mask systemd-logind
+
+    sudo systemctl stop 
+    
+    systemd-logind
+    
+    sudo systemctl mask 
+    
+    systemd-logind
 
 3. ubuntu server设置时区和更新时间：
   * 查看时区
+
     data -R
+
   * 调整时区
+    
     sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
-  > 也可参考：
-  > https://blog.csdn.net/endswell/article/details/126656840
-  > https://www.shuzhiduo.com/A/Ae5R4gR7zQ/
+  也可参考：
+  https://blog.csdn.net/endswell/article/details/126656840
+  
+  https://www.shuzhiduo.com/A/Ae5R4gR7zQ/
