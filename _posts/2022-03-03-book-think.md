@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "醍醐灌顶的清醒深刻"
-categories: RPC
-tags:  RPC 框架
-author: dinstone
+title:  "醍醐灌顶的清醒时刻"
+categories: Think
+tags:  Think 语录
+author: dinstone 收集
 ---
 
 * content

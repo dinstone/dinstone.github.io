@@ -26,7 +26,7 @@ author: dinstone
 
 # 系统设置
 
-1. 安装过程中，通常只有有线网卡可以设置，而对于无线网卡来说是没有管理器的，所以需要我们在插上网线的情况下，更新了加密套件和网络管理器才能正确设置wifi网络。
+1. 安装过程中，可以设置WiFi，如果跳过了设置，可以在系统安装完后进行设置。
 
   * 查看无线网卡名字
 
@@ -82,14 +82,38 @@ author: dinstone
 3. ubuntu server设置时区和更新时间：
   * 查看时区
 
-    data -R
+    date -R
 
   * 调整时区
     
     sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
-4. 也可参考：
+4. 盒盖不睡眠
+ 
+编辑配置文件：sudo vim /etc/systemd/logind.conf
+
+默认是这三种模式：
+```
+HandleLidSwitch=suspend                                 盒盖后挂起
+HandleLidSwitchExternalPower=suspend        连接外接电源时，盒盖后挂起
+HandleLidSwitchDocked=ignore                        连接到扩展坞时，盒盖后无动作
+```
+
+如果需要，你可以根据自己的喜好将这些参数的值更改为其中之一：
+
+​​suspend​​：合盖时挂起
+
+​​lock​​：合盖时锁定
+
+​​ignore​​：什么都不做
+
+​​poweroff​​：关机
+
+​​hibernate​​：合盖时休眠
+
+
+# 参考：
 
   * https://blog.csdn.net/endswell/article/details/126656840
-  
+
   * https://www.shuzhiduo.com/A/Ae5R4gR7zQ/
