@@ -39,7 +39,7 @@ Kubernetes 设计基于 3 个原则：
 
 ## 架构设计
 
-![msa]({{site.url}}/img/k8s/k8s.jpg)
+![k8s]({{site.url}}/img/k8s/k8s.png)
 
 Kubernetes 集群是用来管理容器集群的平台。既然是管理集群，那么就存在控制节点和计算节点，在这些节点上运行着控制面相关的组件和计算面相关的容器应用。
 
