@@ -22,11 +22,11 @@ author: dinstone
 
 随着互联网的普及，Web应用成了软件开发的主流，而Web应用的架构方法自然也就成了焦点。下面我们一起研究一下它的演进路径。
 
-![msc]({{site.url}}/img/arch/evolution.png)
+![aae]({{site.url}}/img/arch/evolution.png)
 
 ### 单体应用架构
 
-![msc]({{site.url}}/img/arch/single.png)
+![aae]({{site.url}}/img/arch/single.png)
 
 特点：
 
@@ -34,11 +34,13 @@ author: dinstone
 
 2. 应用可通过水平复制或数据分区的扩展方式提升系统吞吐和可用性。
 
-3. 架构的重点是对应用做分层和分模块设计，先后经历了MVC架构和分层架构。
+3. 架构的重点是对应用做分层和分模块设计，先后经历了MVC架构、分层架构、六边形架构。
 
 * MVC架构（二层架构）将视图和模型分离，多个视图可以共享一个模型，解决视图和模型耦合的问题。
 
 * 分层架构（三层架构）进一步对模型进行分层，采用面向接口编程，各层之间采用接口相互访问，解决了业务逻辑可测试性的问题。
+
+* 六边形架构以业务逻辑层为中心组织逻辑视图。业务逻辑层通过暴露的出入站端口（port）与适配器层的出入站适配器（adapter）交互，完成系统之间的调用。
 
 优点：
 
@@ -61,7 +63,7 @@ author: dinstone
 
 ### 垂直应用架构
 
-![msc]({{site.url}}/img/arch/vertical.png)
+![aae]({{site.url}}/img/arch/vertical.png)
 
 特点：
 
@@ -85,7 +87,7 @@ author: dinstone
 
 ## 分层服务架构
 
-![msc]({{site.url}}/img/arch/layered.png)
+![aae]({{site.url}}/img/arch/layered.png)
 
 特点：
 
@@ -109,7 +111,7 @@ author: dinstone
 
 ## 面向服务架构
 
-![msc]({{site.url}}/img/arch/soa.png)
+![aae]({{site.url}}/img/arch/soa.png)
 
 特点：
 
@@ -138,7 +140,7 @@ author: dinstone
 
 ## 微服务架构
 
-![msc]({{site.url}}/img/arch/msa.png)
+![aae]({{site.url}}/img/arch/msa.png)
 
 特点：
 
