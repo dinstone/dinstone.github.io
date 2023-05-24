@@ -18,7 +18,7 @@ author: dinstone
 
 ## 技术定位
 
-Kubernetes（简称k8s）是一个开源的容器编排平台，由Google发起并开源。它用于自动化容器化应用程序的部署、扩展和管理。Kubernetes支持多种容器运行时技术，其中最为广泛使用的就是Docker。通过Kubernetes，我们可以对容器进行分布式管理，实现容器的高可用、弹性伸缩和故障恢复等功能。
+Kubernetes（简称k8s）是一个开源的容器编排平台，用于自动化应用程序的部署、扩展和管理。Kubernetes 拥有许多功能，包括水平扩展、自动化升级、服务发现和负载均衡等，它可以运行在多个云平台、物理服务器或虚拟机上。Kubernetes 支持多种容器运行时技术，其中最为广泛使用的就是Docker。通过Kubernetes，我们可以对容器化应用进行分布式管理，实现应用的高可用、弹性伸缩和故障恢复等功能。
 
 ![msc]({{site.url}}/img/k8s/msc.png)
 
@@ -53,4 +53,4 @@ Kubernetes 集群是用来管理容器集群的平台。既然是管理集群，
 
 我们通过 Master 对每个Worker节点发送命令。简单来说，Master 就是管理者，Worker 就是被管理者。
 
-Worker 可以是一台机器或者一台虚拟机。在 Worker 上面可以运行多个 Pod，Pod 是 Kubernetes 管理的最小单位，同时每个 Pod 可以包含多个容器（Docker）。
+Worker 可以是一台机器或者一台虚拟机。在 Worker 上面可以运行多个 Pod，Pod是Kubernetes中最小的部署单位。每个Pod都由一个或多个容器组成，并共享相同的网络命名空间，以便它们可以相互通信。

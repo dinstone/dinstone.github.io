@@ -94,9 +94,17 @@ author: dinstone
 
 默认是这三种模式：
 ```
-HandleLidSwitch=suspend                                 盒盖后挂起
+HandleLidSwitch=suspend                     盒盖后挂起
 HandleLidSwitchExternalPower=suspend        连接外接电源时，盒盖后挂起
-HandleLidSwitchDocked=ignore                        连接到扩展坞时，盒盖后无动作
+HandleLidSwitchDocked=ignore                连接到扩展坞时，盒盖后无动作
+```
+
+修改为：
+
+```
+HandleLidSwitch=ignore                 
+HandleLidSwitchExternalPower=ignore
+HandleLidSwitchDocked=ignore
 ```
 
 如果需要，你可以根据自己的喜好将这些参数的值更改为其中之一：
