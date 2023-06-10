@@ -26,7 +26,9 @@ author: dinstone
 
 # 系统设置
 
-1. 安装过程中，可以设置WiFi，如果跳过了设置，可以在系统安装完后进行设置。
+## 1. Wifi设置
+
+安装过程中，可以设置WiFi，如果跳过了设置，可以在系统安装完后进行设置。
 
   * 查看无线网卡名字
 
@@ -59,18 +61,23 @@ author: dinstone
 
   * 验证和应用设置
 
+```
     sudo netplan try
-  
     sudo netplan apply
-  
+```
+
   * 更多参考：
-    * https://blog.csdn.net/weixin_44244400/article/details/125116027
-    * https://www.dandelioncloud.cn/article/details/1595000146184294401
-  
-2. 系统安装成功后，CPU负载和内存占用确实下来了，但是只要SSH一连接，CPU就飙升到20%以上，top查看发现是systemd-logind进程做怪，网上也有很多类似的问题。既然找到了罪魁后手，那就解决systemd-logind占用cpu过高的问题。参考网友的方法直接停止该服务就行：https://www.landui.com/help/show-3135 
+
+    > https://blog.csdn.net/weixin_44244400/article/details/125116027
+    > https://www.dandelioncloud.cn/article/details/1595000146184294401
+
+## 2. CPU过高的问题
+
+系统安装成功后，CPU负载和内存占用确实下来了，但是只要SSH一连接，CPU就飙升到20%以上，top查看发现是systemd-logind进程做怪，网上也有很多类似的问题。既然找到了罪魁后手，那就解决systemd-logind占用cpu过高的问题。参考网友的方法直接停止该服务就行：https://www.landui.com/help/show-3135 
 
 执行如下命令搞定：
 
+```
 // 停止该服务
 
   sudo systemctl stop systemd-logind
@@ -78,8 +85,12 @@ author: dinstone
 // 永久停用该服务
 
   sudo systemctl mask systemd-logind
+```
 
-3. ubuntu server设置时区和更新时间：
+## 3. 时间设置
+
+ubuntu server设置时区和更新时间：
+
   * 查看时区
 
     date -R
@@ -88,11 +99,16 @@ author: dinstone
     
     sudo cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
-4. 盒盖不睡眠
- 
-编辑配置文件：sudo vim /etc/systemd/logind.conf
+## 4. 盒盖不睡眠
+
+编辑配置文件：
+
+```
+sudo vim /etc/systemd/logind.conf
+```
 
 默认是这三种模式：
+
 ```
 HandleLidSwitch=suspend                     盒盖后挂起
 HandleLidSwitchExternalPower=suspend        连接外接电源时，盒盖后挂起
@@ -119,8 +135,7 @@ HandleLidSwitchDocked=ignore
 
 ​​hibernate​​：合盖时休眠
 
-
-# 参考：
+# 参考
 
   * https://blog.csdn.net/endswell/article/details/126656840
 
