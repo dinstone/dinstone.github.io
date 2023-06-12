@@ -125,7 +125,7 @@ iptables -L
 cat /etc/resolv.conf
 ```
 
-## 私有镜像仓库Registry搭建
+## 私有镜像仓库安装
 
 Docker 官方提供了一个叫做 registry 的镜像用于搭建本地私有仓库使用。在内部网络搭建的 Docker 私有仓库可以使内网人员下载、上传都非常快速，不受外网带宽等因素的影响，同时不在内网的人员也无法下载我们的镜像，并且私有仓库也支持配置仓库认证功能。(https://zhuanlan.zhihu.com/p/211237898)
 
@@ -160,7 +160,7 @@ docker tag hello-world:latest 192.168.1.120:5000/test-hello-world:1.0.0
 docker push 192.168.1.120:5000/test-hello-world:1.0.0
 ```
 
-3. 浏览器输入：http://192.168.1.120:5000/v2/_catalog 可以看到私有仓库中已上传的镜像。
+浏览器输入：http://192.168.1.120:5000/v2/_catalog 可以看到私有仓库中已上传的镜像。
 
 ```
 {"repositories":["msa/msa-config-server","msa/msa-gateway-cloud","msa/msa-service-consumer","msa/msa-service-provider"]}
@@ -171,6 +171,7 @@ docker push 192.168.1.120:5000/test-hello-world:1.0.0
 ```
 docker run -d --restart=unless-stopped --name consul -p 8500:8500 consul
 ```
+
 
 # Kubernetes安装
 
@@ -253,6 +254,25 @@ sudo systemctl daemon-reload
 sudo systemctl restart containerd
 sudo systemctl status containerd
 
-sudo crictl pull 192.168.1.120:5000/msa/msa-service-provider
+sudo crictl pull 192.18.1.120:5000/msa/msa-service-provider
 ```
 
+## kuboard安装
+
+kuboard是 Kubernetes 多集群管理界面，非常的好用。https://www.kuboard.cn/
+
+建议在K8s集群外单独安装kuboard服务：
+
+```
+sudo docker run -d \
+  --restart=unless-stopped \
+  --name=kuboard \
+  -p 11080:80/tcp \
+  -p 11081:10081/tcp \
+  -e KUBOARD_ENDPOINT="http://192.168.1.120:11080" \
+  -e KUBOARD_AGENT_SERVER_TCP_PORT="11081" \
+  -v /home/tuding/kuboard:/data \
+  eipwork/kuboard:v3.5.2.4
+```
+
+kuboard安装后访问：http://192.168.1.120:11080/。
