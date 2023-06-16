@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Projects
+title: 项目
 permalink: /projects/
 icon: play
 type: page
