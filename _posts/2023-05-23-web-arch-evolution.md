@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Web 应用架构演进"
+title:  "应用架构演进"
 categories: 架构
 tags:  架构 web 应用
 author: dinstone
