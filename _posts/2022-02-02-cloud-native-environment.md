@@ -169,7 +169,7 @@ docker push 192.168.1.120:5000/test-hello-world:1.0.0
 ## Consul安装
 
 ```
-docker run -d --restart=unless-stopped --name consul -p 8500:8500 consul
+docker run -d --restart=unless-stopped --name consul -p 8500:8500 -v /home/tuding/consul:/consul/data consul agent -server -bootstrap -ui -client='0.0.0.0'
 ```
 
 
