@@ -254,7 +254,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart containerd
 sudo systemctl status containerd
 
-sudo crictl pull 192.18.1.120:5000/msa/msa-service-provider
+sudo crictl pull 192.168.1.120:5000/msa/msa-service-provider
 ```
 
 ## kuboard安装
