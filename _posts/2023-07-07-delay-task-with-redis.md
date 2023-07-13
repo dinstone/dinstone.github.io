@@ -2,7 +2,7 @@
 layout: post
 title:  "真正的千万级分布式延迟任务系统 Grape"
 categories: grape
-tags:  grape delayed task
+tags:  grape delay job
 author: dinstone
 ---
 
@@ -110,7 +110,7 @@ Grape 是一个无状态的HTTP服务，很容易横向扩展。业务系统可�
 
 ### 任务生命周期
 
-Grape借鉴了Beanstalkd的任务管理机制，因此在Grape中，延迟任务可能处于四种状态之一：“delay”、“ready”、“remain”或“failed”。
+Grape借鉴了Beanstalkd的任务管理机制，因此在Grape中，延迟任务可能处于四种状态之一：“delay”、“ready”、“remain”或“failed”。围绕任务状态的迁移动作，满足了很多通用场景对延迟任务的诉求。
 
 ![Status]({{site.url}}/img/arch/grape-status.png)
 
@@ -127,25 +127,24 @@ Grape借鉴了Beanstalkd的任务管理机制，因此在Grape中，延迟任务
 
 - failed 状态，该状态的任务通常为异常任务，可通过查看（peek）任务来决策，如果需要继续执行，则打回（kick）到delay状态，如果不在需要执行，则可丢弃（discard）掉任务。
 
-通过以上任务状态的设计，能够满足很多通用场景对延迟任务的诉求。
 
 ### 关键实现与技巧
 
-更多的实现细节和技巧可以参阅源码工程，这里仅列出2个关键实现做一个介绍。
+更多的实现细节和技巧可以参阅源码工程，这里仅介绍2个关键实现和技巧。
 
-1. Tube的队列模型
+1.Tube的队列模型
 
 ![Tube]({{site.url}}/img/arch/grape-tube.png)
 
 Tube中一共维护了3个队列，每个队列对应一个Redis的Sorted Set数据集合，Score是任务的延迟时间，Value是任务ID。
 
-    - delay队列，存储delay和ready状态的延迟任务。produce提交的任务进入该队列后，不用做主动调度，就可以在consume的时候消费了。因为任务都是按延迟时间排序的，排在前面的任务，延时大于当前时间的都是ready的任务，所以是可以直接消费的。这样的实现即减少了调度的压力，也提升了调度的精度，而且也降低了Redis的IO。
+- delay队列，存储delay和ready状态的延迟任务。produce提交的任务进入该队列后，不用做主动调度，就可以在consume的时候消费了。因为任务都是按延迟时间排序的，排在前面的任务，延时大于当前时间的都是ready的任务，所以是可以直接消费的。这样的实现即减少了调度的压力，也提升了调度的精度，而且也降低了Redis的IO。
 
-    - retain队列，存储retain状态的任务。remain队列为什么也需要排序？对消费中的任务做ttr延迟时间排序，加快了retain状态到ready状态的转移。调度器不用扫描每个任务的ttr延时，通过Sorted Set数据结构可以直接获取remain队列的前n个到期任务。
+- retain队列，存储retain状态的任务。remain队列为什么也需要排序？对消费中的任务做ttr延迟时间排序，加快了retain状态到ready状态的转移。调度器不用扫描每个任务的ttr延时，通过Sorted Set数据结构可以直接获取remain队列的前n个到期任务。
 
-    - failed队列，存储bury的任务。任务以提交时间排序，方便查看。
+- failed队列，存储bury的任务。任务以提交时间排序，方便查看。
 
-2. Broker的调度管理
+2.Broker的调度管理
 
 Broker 作为延迟队列Tube的管理器，负责发现和执行Tube中任务的调度。
 
@@ -153,61 +152,61 @@ Broker 作为延迟队列Tube的管理器，负责发现和执行Tube中任务�
 public Broker(RedisClient redisClient, String namespace, int scheduledSize) {
 		...
 
-		this.executor = Executors.newScheduledThreadPool(scheduledSize, new ThreadFactory() {
+	this.executor = Executors.newScheduledThreadPool(scheduledSize, new ThreadFactory() {
 
-			private final AtomicInteger index = new AtomicInteger();
+		private final AtomicInteger index = new AtomicInteger();
 
-			@Override
-			public Thread newThread(Runnable r) {
-				return new Thread(r, threadPrefix + index.incrementAndGet());
-			}
-		});
-	}
+		@Override
+		public Thread newThread(Runnable r) {
+			return new Thread(r, threadPrefix + index.incrementAndGet());
+		}
+	});
+}
 ```
 
 Broker启动后，使用固定频率毎2秒执行一次检查，如果有新的Tube创建，那么就创建一个Tube的调度任务添加到调度器中，Tube的调度任务将以固定延迟时间来执行。这样就使得namespace下的所有Broker都负担起任务调度，提升了系统的性能和吞吐。
 
 ```java
-	public Broker start() {
-		executor.scheduleAtFixedRate(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					dispatch();
-				} catch (Exception e) {
-					LOG.warn("dispatch {} error: {}", namespace, e.getMessage());
-				}
-			}
-		}, 1, 2, TimeUnit.SECONDS);
-
-		LOG.info("Broker[{}] is started", namespace);
-		return this;
-	}
-
-    private void dispatch() {
-		Set<String> tubeSet = tubeSet();
-		for (String tubeName : tubeSet) {
-			if (!taskMap.containsKey(tubeName)) {
-				ScheduledTask task = new ScheduledTask(createTube(tubeName));
-				executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.SECONDS);
-				taskMap.put(tubeName, task);
-			}
-		}
-	}
-
-	private final class ScheduledTask implements Runnable {
-		private final Tube tube;
-
-		private ScheduledTask(Tube tube) {
-			this.tube = tube;
-		}
+public Broker start() {
+	executor.scheduleAtFixedRate(new Runnable() {
 
 		@Override
 		public void run() {
-			tube.schedule();
+			try {
+				dispatch();
+			} catch (Exception e) {
+				LOG.warn("dispatch {} error: {}", namespace, e.getMessage());
+			}
+		}
+	}, 1, 2, TimeUnit.SECONDS);
+
+	LOG.info("Broker[{}] is started", namespace);
+	return this;
+}
+
+private void dispatch() {
+	Set<String> tubeSet = tubeSet();
+	for (String tubeName : tubeSet) {
+		if (!taskMap.containsKey(tubeName)) {
+			ScheduledTask task = new ScheduledTask(createTube(tubeName));
+			executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.SECONDS);
+			taskMap.put(tubeName, task);
 		}
 	}
+}
+
+private final class ScheduledTask implements Runnable {
+	private final Tube tube;
+
+	private ScheduledTask(Tube tube) {
+		this.tube = tube;
+	}
+
+	@Override
+	public void run() {
+		tube.schedule();
+	}
+}
 ```
 
 ## 总结与未来规划
