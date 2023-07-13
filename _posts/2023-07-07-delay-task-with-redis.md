@@ -152,7 +152,7 @@ Broker 作为延迟队列Tube的管理器，负责发现和执行Tube中任务�
 public Broker(RedisClient redisClient, String namespace, int scheduledSize) {
 		...
 
-	this.executor = Executors.newScheduledThreadPool(scheduledSize, new ThreadFactory() {
+	this.scheduledExecutor = Executors.newScheduledThreadPool(scheduledSize, new ThreadFactory() {
 
 		private final AtomicInteger index = new AtomicInteger();
 
@@ -168,7 +168,7 @@ Broker启动后，使用固定频率毎2秒执行一次检查，如果有新的T
 
 ```java
 public Broker start() {
-	executor.scheduleAtFixedRate(new Runnable() {
+	scheduledExecutor.scheduleAtFixedRate(new Runnable() {
 
 		@Override
 		public void run() {
@@ -184,18 +184,43 @@ public Broker start() {
 	return this;
 }
 
+public Broker stop() {
+	scheduledExecutor.shutdown();
+	try {
+		scheduledExecutor.awaitTermination(Integer.MAX_VALUE, TimeUnit.HOURS);
+	} catch (InterruptedException e) {
+	}
+	LOG.info("Broker[{}] is shutdown", namespace);
+	return this;
+}
+
 private void dispatch() {
+	// discovery new tubes
 	Set<String> tubeSet = tubeSet();
 	for (String tubeName : tubeSet) {
-		if (!taskMap.containsKey(tubeName)) {
+		if (!tubeTaskFutureMap.containsKey(tubeName)) {
 			ScheduledTask task = new ScheduledTask(createTube(tubeName));
-			executor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.SECONDS);
-			taskMap.put(tubeName, task);
+			ScheduledFuture<?> future = scheduledExecutor.scheduleWithFixedDelay(task, 0, 1, TimeUnit.SECONDS);
+			tubeTaskFutureMap.put(tubeName, future);
 		}
+	}
+	// remove old tubes
+	for (Iterator<Entry<String, ScheduledFuture<?>>> iterator = tubeTaskFutureMap.entrySet().iterator(); iterator
+			.hasNext();) {
+		Entry<String, ScheduledFuture<?>> next = iterator.next();
+		if (tubeSet.contains(next.getKey())) {
+			continue;
+		}
+
+		// cancel tube scheduled task
+		next.getValue().cancel(true);
+		// delete tube task future
+		iterator.remove();
 	}
 }
 
 private final class ScheduledTask implements Runnable {
+
 	private final Tube tube;
 
 	private ScheduledTask(Tube tube) {
@@ -207,6 +232,7 @@ private final class ScheduledTask implements Runnable {
 		tube.schedule();
 	}
 }
+
 ```
 
 ## 总结与未来规划
