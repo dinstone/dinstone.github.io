@@ -43,7 +43,7 @@ Kubernetes 设计基于 3 个原则：
 
 Kubernetes 集群是用来管理容器集群的平台。既然是管理集群，那么就存在控制节点和计算节点，在这些节点上运行着控制面相关的组件和计算面相关的容器应用。
 
-其中控制节点，即Master节点，负责管理和控制集群节点，由3个紧密协作的组件组成，分别是负责API服务的kube-api-server、负责调度的 kube-scheduler、负责容器编排的 kube-controller-manager。整个集群的持久化数据，则由 kube-apis-erver 处理后保存在 etcd 中。
+其中控制节点，即Master节点，负责管理和控制集群节点，由3个紧密协作的组件组成，分别是负责API服务的kube-api-server、负责调度的 kube-scheduler、负责容器编排的 kube-controller-manager。整个集群的持久化数据，则由 kube-api-server 处理后保存在 etcd 中。
 
 其中计算节点，即Worker节点，会运行一个名为kubelet的控制面核心组件。kubelet组件主要负责同容器运行时（比如docker）交互，交互通过一个称作CRI（Container Runtime Interface）的远程调用接口，该接口定义了容器运行时的各项核心操作，比如启动一个客器需要的所有参数。
 
