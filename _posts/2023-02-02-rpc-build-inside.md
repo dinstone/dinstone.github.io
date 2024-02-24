@@ -123,8 +123,10 @@ server.exporting(DemoService.class, demo, options);
 
 ### Client组件设计
 
-通常 RPC 调用有以下两种方式： 
-* 同步调用：客户端等待调用执行完成并返回结果。 
+通常 RPC 调用有以下两种方式：
+
+* 同步调用：客户端等待调用执行完成并返回结果。
+
 * 异步调用：客户端调用后不用等待执行结果返回，但依然可以通过回调等方式获取返回结果。
 
 ```java
@@ -162,10 +164,10 @@ System.out.println(rf.get());
 ```
 
 ### 协议组件设计
-消息抽象定义了代表请求的Call类和代表应答的Reply类。序列化可以抽象为Serializer接口，压缩可以抽象为Compressor接口，方便不同算法实现扩展，当前流行的跨语言序列化实现有Json、Protobuf、Thrift等。
+消息抽象定义了代表请求的Invocation类。序列化可以抽象为Serializer接口，压缩可以抽象为Compressor接口，方便不同算法实现扩展，当前流行的跨语言序列化实现有Json、Protobuf、Thrift等。
 
 ```java
-public class Call implements Serializable {
+public class Invocation implements Serializable {
 
     private String service;
 
@@ -174,12 +176,7 @@ public class Call implements Serializable {
     private Object parameter;
 }
 ```
-```java
-public class Reply implements Serializable {
-    /** error or result */
-    private Object data;
-}
-```
+
 ```java
 public interface Serializer {
     /**
@@ -195,6 +192,7 @@ public interface Serializer {
 
 }
 ```
+
 ```java
 public interface Compressor {
 
@@ -236,7 +234,7 @@ Invoker接口：
 ```java
 public interface Invoker {
 
-    public CompletableFuture<Reply> invoke(Call call) throws Exception;
+    public CompletableFuture<Object> invoke(Invocation call) throws Exception;
 
 }
 ```
@@ -262,7 +260,8 @@ public interface Connector {
 }
 ```
 
-## 总结 
+## 总结
+
 至此我们输出了一个 RPC框架的基本架构，并详细分析了需要考虑的一些实现细节，尤其对跨语言、跨平台性实现做了深入设计，为框架的扩展性提供了基础。 
 
 1. 跨语言的关键是序列化的安全性、兼容性。
