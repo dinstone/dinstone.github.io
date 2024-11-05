@@ -57,6 +57,8 @@ author: dinstone
           access-points:
               "wifi ssid":
                   password: "wifi 密码"
+          addresses: [192.168.1.120/24]
+          optional: true
   ```
 
   * 验证和应用设置
