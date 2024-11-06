@@ -197,6 +197,10 @@ curl -sfL https://get-kk.kubesphere.io | VERSION=v3.0.7 sh -
 
 ```
 kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l 'app in (ks-install, ks-installer)' -o jsonpath='{.items[0].metadata.name}') -f
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 给containerd镜像仓库docker.io添加加速地址：

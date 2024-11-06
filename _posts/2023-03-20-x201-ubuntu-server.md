@@ -53,12 +53,17 @@ author: dinstone
     version: 2
   wifis:
       wlp2s0:
+          optional: true
           dhcp4: true
           access-points:
               "wifi ssid":
                   password: "wifi 密码"
-          addresses: [192.168.1.120/24]
-          optional: true
+          addresses: [192.168.18.20/24]
+          routes:
+            - to: default
+              via: 192.168.18.1
+          nameservers:
+            addresses: [1.1.1.1, 8.8.8.8]
   ```
 
   * 验证和应用设置
