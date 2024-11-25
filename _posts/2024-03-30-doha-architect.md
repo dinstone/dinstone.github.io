@@ -29,7 +29,9 @@ DOHA (Domain-Oriented Hexagonal Architecture) 面向领域的六边形架构的�
 
 ![逻辑架构]({{site.url}}/img/arch/doha-l.jpg)
 
-DOHA 将应用分层为 Adapter 层、Port 层和 Domain 层。Adapter 层依赖 Port 层，Port 层和 Domain 层作为业务逻辑层互相依赖。
+DOHA 架构将应用细化为五个分层： Inbound Adapter 层、Inbound Port 层、Domain 层、Outbound Port 层、Outbound Adapter层。
+
+ Inbound Adapter层和 Outbound Adapter层作为适配器层，依赖业务层（Inbound Port 层，Outbound Port 层和 Domain 层）。
 
 ## 实现架构
 
@@ -37,13 +39,13 @@ DOHA 将应用分层为 Adapter 层、Port 层和 Domain 层。Adapter 层依赖
 
 DOHA 将工程分为：
 
-- doha-starter：应用启动和部署单元，依赖 doha-business 和 doha-adapter 工程。
+- doha-handler：应用程序入口，入站适配器实现都在这里，负责处理外部请求，依赖其它工程。
 
-- doha-Interface：为第三方应用提供接口 API，如 RPC、Event、MQ 等，不依赖其它工程。
+- doha-interface：提供给第三方应用依赖的编程接口，如 RPC、Event、MQ 等，不依赖其它工程。
 
-- doha-adapter：出入站适配器实现都在这里，依赖 doha-business 工程。
+- doha-invoker：出站适配器实现都在这里，负责调用外部系统，依赖 doha-business 工程。
 
-- doha-business：业务逻辑实现的地方，不依赖其它工程。
+- doha-business：业务逻辑实现的地方，包括入站端口服务、领域模型、出站端口接口，不依赖其它工程。
 
 ## 快速开始
 
@@ -60,87 +62,10 @@ mvn clean install
 2. 应用模板创建工程
 
 ``` shell
-mvn archetype:generate  -DarchetypeGroupId=io.doha.template  -DarchetypeArtifactId=doha-template-archetype  -DarchetypeVersion=1.0.0 -DgroupId=demo.service -DartifactId=order-service -Dpackage=demo.service.order
+mvn archetype:generate  -DarchetypeGroupId=io.doha.template  -DarchetypeArtifactId=doha-template-archetype  -DarchetypeVersion=2.0.0 -DgroupId=demo.service -DartifactId=order-service -Dpackage=demo.service.order
 ```
 
 ## 模板工程
 
-``` shell
-├ doha-template # 微服务模板工程
-├── doha-template-adapter # Adapter工程
-│   ├── pom.xml
-│   └── src
-│       ├── main
-│       │   ├── java
-│       │   │   └── io
-│       │   │       └── doha
-│       │   │           └── template
-│       │   │               └── adapter
-│       │   │                   ├── cache
-│       │   │                   ├── dao
-│       │   │                   │   └── OrderDao.java
-│       │   │                   ├── mq
-│       │   │                   └── rpc
-│       │   │                       ├── CalculateSpi.java
-│       │   │                       └── OrderRpcSpi.java
-│       │   └── resources
-│       └── test
-│           └── java
-├── doha-template-business # Business工程
-│   ├── pom.xml
-│   └── src
-│       ├── main
-│       │   ├── java
-│       │   │   └── io
-│       │   │       └── doha
-│       │   │           └── template
-│       │   │               ├── domain
-│       │   │               │   ├── model
-│       │   │               │   │   └── OrderAggregate.java
-│       │   │               │   └── service
-│       │   │               │       └── OrderRuleService.java
-│       │   │               └── port
-│       │   │                   ├── event
-│       │   │                   ├── remote
-│       │   │                   │   └── CalculateRemote.java
-│       │   │                   ├── repository
-│       │   │                   │   └── OrderRepository.java
-│       │   │                   └── service
-│       │   │                       ├── OrderCommandService.java
-│       │   │                       └── OrderQueryService.java
-│       │   └── resources
-│       └── test
-│           └── java
-├── doha-template-interface # Interface工程
-│   ├── pom.xml
-│   └── src
-│       ├── main
-│       │   ├── java
-│       │   │   └── io
-│       │   │       └── doha
-│       │   │           └── template
-│       │   │               └── api
-│       │   │                   ├── mq
-│       │   │                   └── rpc
-│       │   │                       ├── OrderRequest.java
-│       │   │                       ├── OrderResponse.java
-│       │   │                       └── OrderRpcApi.java
-│       │   └── resources
-│       └── test
-│           └── java
-├── doha-template-starter # Starter工程
-│   ├── pom.xml
-│   └── src
-│       ├── main
-│       │   ├── java
-│       │   │   └── io
-│       │   │       └── doha
-│       │   │           └── template
-│       │   │               └── DohaTemplateApplication.java
-│       │   └── resources
-│       │       ├── application.properties
-│       │       └── log4j2.xml
-│       └── test
-│           └── java
-├── pom.xml
-```
+Java : https://github.com/dinstone/doha
+Go   : https://github.com/dinstone/doha-go
