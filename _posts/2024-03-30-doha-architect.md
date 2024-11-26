@@ -67,5 +67,6 @@ mvn archetype:generate  -DarchetypeGroupId=io.doha.template  -DarchetypeArtifact
 
 ## 模板工程
 
-Java : https://github.com/dinstone/doha
-Go   : https://github.com/dinstone/doha-go
+- Java : https://github.com/dinstone/doha
+
+- Go   : https://github.com/dinstone/doha-go
