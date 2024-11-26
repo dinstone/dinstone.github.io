@@ -11,7 +11,7 @@ author: dinstone
 
 ## DOHA 
 
-DOHA (Domain-Oriented Hexagonal Architecture) 面向领域的六边形架构的核心在于应用领域驱动设计（DDD）的思想来设计和组织业务逻辑，并结合六边形架构来实现业务逻辑与外部接口的分离，为构建健壮、可维护、可扩展的软件系统提供了有力的支持。
+DOHA (Domain-Oriented Hexagonal Architecture) 面向领域的六边形架构的核心在于使用领域驱动设计（DDD）的思想来设计和组织业务逻辑，并结合六边形架构的端口适配器模式来实现业务逻辑与外部接口的分离，为构建健壮、可维护、可扩展的复杂应用系统提供了有力的支持。
 
 ![六边形架构]({{site.url}}/img/arch/ha.jpg)
 
